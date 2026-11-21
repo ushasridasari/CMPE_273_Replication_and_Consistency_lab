@@ -1,0 +1,57 @@
+
+============================================================
+ STEP 0: initial state
+============================================================
+  CLIENT read from primary   -> stock = 10  (version 0)
+  CLIENT read from secondary -> stock = 10  (version 0)
+  [PASS] both replicas start with stock = 10
+
+============================================================
+ TEST 1: Replication (normal case)
+============================================================
+  CLIENT write to primary   -> stock = 12  (version 1)
+  CLIENT read from primary   -> stock = 12  (version 1)
+  [PASS] primary have the new value 12 right away
+  ...secondary caught up after 0.11s
+  CLIENT read from primary   -> stock = 12  (version 1)
+  CLIENT read from secondary -> stock = 12  (version 1)
+  [PASS] both replicas return 12 after replication
+  CLIENT write to primary   -> stock = 10  (version 2)
+  (reset stock back to 10 for next test)
+  CLIENT read from primary   -> stock = 10  (version 2)
+  CLIENT read from secondary -> stock = 10  (version 2)
+
+============================================================
+ TEST 2: Stale read (replication is delayed)
+============================================================
+  CLIENT asked primary to PAUSE replication
+  CLIENT write to primary   -> stock = 9  (version 3)
+  -- read round 1 --
+  CLIENT read from primary   -> stock = 9  (version 3)
+  CLIENT read from secondary -> stock = 10  (version 2)
+  [PASS] primary return 9
+  [PASS] secondary still return OLD value 10 -> STALE READ
+  -- read round 2 --
+  CLIENT read from primary   -> stock = 9  (version 3)
+  CLIENT read from secondary -> stock = 10  (version 2)
+  [PASS] primary return 9
+  [PASS] secondary still return OLD value 10 -> STALE READ
+  -- read round 3 --
+  CLIENT read from primary   -> stock = 9  (version 3)
+  CLIENT read from secondary -> stock = 10  (version 2)
+  [PASS] primary return 9
+  [PASS] secondary still return OLD value 10 -> STALE READ
+
+============================================================
+ TEST 3: Recovery and convergence
+============================================================
+  CLIENT asked primary to RESUME replication
+  ...secondary converged 0.11s after resume
+  CLIENT read from primary   -> stock = 9  (version 3)
+  CLIENT read from secondary -> stock = 9  (version 3)
+  [PASS] secondary is now updated to 9
+  [PASS] primary and secondary return same value again
+
+============================================================
+ SUMMARY: 11/11 checks passed
+============================================================

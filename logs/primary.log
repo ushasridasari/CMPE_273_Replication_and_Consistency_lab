@@ -1,0 +1,26 @@
+[13:38:07.688] [PRIMARY  ] started on port 5001, stock=10
+[13:38:24.008] [PRIMARY  ] READ stock -> 10 (version 0)
+[13:38:24.011] [PRIMARY  ] WRITE stock=12 (version 1)
+[13:38:24.011] [PRIMARY  ] queued update v1 for secondary (queue size=1)
+[13:38:24.012] [PRIMARY  ] READ stock -> 12 (version 1)
+[13:38:24.013] [PRIMARY  ] READ stock -> 12 (version 1)
+[13:38:24.025] [PRIMARY  ] sent v1 (stock=12) to secondary
+[13:38:24.120] [PRIMARY  ] READ stock -> 12 (version 1)
+[13:38:24.122] [PRIMARY  ] READ stock -> 12 (version 1)
+[13:38:24.124] [PRIMARY  ] WRITE stock=10 (version 2)
+[13:38:24.124] [PRIMARY  ] queued update v2 for secondary (queue size=1)
+[13:38:24.125] [PRIMARY  ] READ stock -> 10 (version 2)
+[13:38:24.126] [PRIMARY  ] sent v2 (stock=10) to secondary
+[13:38:24.127] [PRIMARY  ] READ stock -> 10 (version 2)
+[13:38:24.129] [PRIMARY  ] >>> replication to secondary PAUSED
+[13:38:24.129] [PRIMARY  ] WRITE stock=9 (version 3)
+[13:38:24.129] [PRIMARY  ] queued update v3 for secondary (queue size=1)
+[13:38:24.129] [PRIMARY  ] replication is PAUSED, holding v3
+[13:38:25.138] [PRIMARY  ] READ stock -> 9 (version 3)
+[13:38:26.148] [PRIMARY  ] READ stock -> 9 (version 3)
+[13:38:27.158] [PRIMARY  ] READ stock -> 9 (version 3)
+[13:38:28.170] [PRIMARY  ] >>> replication to secondary RESUMED
+[13:38:28.172] [PRIMARY  ] READ stock -> 9 (version 3)
+[13:38:28.221] [PRIMARY  ] sent v3 (stock=9) to secondary
+[13:38:28.282] [PRIMARY  ] READ stock -> 9 (version 3)
+[13:38:28.285] [PRIMARY  ] READ stock -> 9 (version 3)
