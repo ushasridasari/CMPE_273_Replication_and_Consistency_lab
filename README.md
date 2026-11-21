@@ -17,6 +17,7 @@ I wrote it in **Python 3** and only use the standard library (`http.server`, `ur
 | `run_all.sh` | Start both replicas, run the demo, print all the logs, and stop everything at the end. |
 | `logs/` | Logs from my run (client output, primary log, secondary log). |
 | `screenshots/` | Screenshots of the program running. |
+| `images/` | Architecture diagram image. |
 
 ---
 
@@ -68,23 +69,7 @@ Stop the replicas with `Ctrl+C`.
 
 ## Architecture
 
-```
-                      writes (POST /stock)
-   +----------+  ---------------------------------->  +-------------------+
-   |          |                                       |  PRIMARY  :5001   |
-   |          |  <---------- reads (GET /stock) ----  |  stock = 10       |
-   |  CLIENT  |                                       |  version = N      |
-   | client.py|                                       |  [ repl queue ]---+--+
-   |          |                                       +-------------------+  |
-   |          |                                         pause / resume       |  async
-   |          |                                         (control endpoint)   |  POST /replicate
-   |          |                                                              |  {key, value, version}
-   |          |                                       +-------------------+  |
-   |          |  <---------- reads (GET /stock) ----  |  SECONDARY :5002  |<-+
-   +----------+                                       |  stock = 10       |
-                                                      |  version = N      |
-                                                      +-------------------+
-```
+![Architecture diagram](images/architecture.png)
 
 How it works:
 
