@@ -233,6 +233,6 @@ Secondary terminal – it keeps returning 10 (version 2) during the pause, and g
 
 ---
 
-## Reflection
+## What tradeoff exists between reading quickly from a replica and guaranteeing that the reader sees the latest value?
 
 Reading from a replica is fast and it takes load away from the primary, but the replica can be behind, so the reader may get an old value like the `10` I got from Secondary after stock was already `9`. If we want the reader to always see the latest value, we have to read from the primary or make the write wait until all replicas confirm it (synchronous replication). That makes reads or writes slower, and the system is less available when a replica is slow or down. So it is a tradeoff between speed/availability and freshness of the data. For inventory, a small stale read is okay for showing "in stock" on a product page, but for the final checkout we should read from the primary so we don't sell an item that is already gone.
