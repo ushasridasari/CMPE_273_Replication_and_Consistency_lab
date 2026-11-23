@@ -88,7 +88,7 @@ Below is the real output from my run on my MacBook (3 terminals: secondary, prim
 
 ### 1. Replication
 
-Client write `stock = 12` to Primary. Primary have it right away, and Secondary got the same value in around 0.11 sec.
+Client write `stock = 12` to Primary. Primary have it right away, and Secondary got the same value in about 0.1 sec (exact time varies a little per run).
 
 ```
 ============================================================
@@ -111,6 +111,8 @@ Server side logs for the same moment:
 [13:38:24.024] [SECONDARY] REPLICATED stock=12 (version 1)
 [13:38:24.025] [PRIMARY  ] sent v1 (stock=12) to secondary
 ```
+
+The server logs show the Secondary actually applied the update ~13 ms after the write; the ~0.1s in the client output is mostly the client's 0.1s polling interval.
 
 After this test I set the stock back to 10, so the stale read test starts from `stock = 10` like in the assignment.
 
