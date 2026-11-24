@@ -46,7 +46,7 @@
  TEST 3: Recovery and convergence
 ============================================================
   CLIENT asked primary to RESUME replication
-  ...secondary converged 0.12s after resume
+  ...secondary converged 0.11s after resume
   CLIENT read from primary   -> stock = 9  (version 3)
   CLIENT read from secondary -> stock = 9  (version 3)
   [PASS] secondary is now updated to 9
